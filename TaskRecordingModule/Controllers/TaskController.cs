@@ -12,6 +12,8 @@ using TaskRecordingModule.Models;
 
 namespace TaskRecordingModule.Controllers
 {
+    //[Authorize]
+
     public class TaskController : Controller
     {
         private TaskRecordingDBEntities db = new TaskRecordingDBEntities();
@@ -47,6 +49,7 @@ namespace TaskRecordingModule.Controllers
         }
 
         // GET: Task/Create
+
         public ActionResult Create()
         {
             if (Session["LOGGED_USERID"] == null || Session["LOGGED_USERNAME"] == null || Session["LOGGED_USERTYPE"] == null)
@@ -78,8 +81,7 @@ namespace TaskRecordingModule.Controllers
         }
 
         // POST: Task/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(TaskModel model)
@@ -144,8 +146,7 @@ namespace TaskRecordingModule.Controllers
         }
 
         // POST: Task/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,UserId,Status,CreatedDate,SubmittedDate")] TaskModel model)

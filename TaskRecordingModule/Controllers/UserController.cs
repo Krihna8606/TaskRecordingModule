@@ -35,6 +35,12 @@ namespace TaskRecordingModule.Controllers
 
         public ActionResult TaskList()
         {
+            if (Session["LOGGED_USERID"] == null || Session["LOGGED_USERNAME"] == null || Session["LOGGED_USERTYPE"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
             var taskList = db.Task.ToList().Where(x => x.UserId.IsEmpty());
             List<TaskModel> models= new List<TaskModel>();
             foreach (var list in taskList)
@@ -61,11 +67,15 @@ namespace TaskRecordingModule.Controllers
             }
             //Task assignMe=new Task();
             tasks.Id = id;
+
             tasks.UserId = Session["LOGGED_USERID"].ToString();
+
             db.Entry(tasks).State = EntityState.Modified;
             db.SaveChanges();
 
 
+
+            //return RedirectToAction("Index", "Login");
             return RedirectToAction("TaskList");
         }
 
@@ -86,7 +96,12 @@ namespace TaskRecordingModule.Controllers
 
                 models.Add(task);
             }
-            return View(models);
+
+
+            return RedirectToAction("Index", "Login");
+            //return View(models);
+
+
         }
         public ActionResult Complete(int id)
         {
@@ -220,6 +235,7 @@ namespace TaskRecordingModule.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(users);
         }
 

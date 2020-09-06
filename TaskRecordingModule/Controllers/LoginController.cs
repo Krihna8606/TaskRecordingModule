@@ -7,12 +7,18 @@ using TaskRecordingModule.Models;
 
 namespace TaskRecordingModule.Controllers
 {
+    
     public class LoginController : Controller
     {
         private TaskRecordingDBEntities db = new TaskRecordingDBEntities();
 
         public ActionResult Index(string registerstatus="")
         {
+            if (Session["LOGGED_USERID"] != null || Session["LOGGED_USERNAME"] != null || Session["LOGGED_USERTYPE"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (registerstatus == "success")
             {
                 ViewBag.registerstatus = "success";
@@ -27,8 +33,11 @@ namespace TaskRecordingModule.Controllers
             }
             return View();
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult Index(LoginModel model)
         {
             if (ModelState.IsValid)
@@ -63,19 +72,30 @@ namespace TaskRecordingModule.Controllers
         }
 
         [HttpPost]
+
+       
         public ActionResult Logout()
         {
             Session["LOGGED_USERID"] = null;
             Session["LOGGED_USERNAME"] = null;
             Session["LOGGED_USERTYPE"] = null;
+
             return RedirectToAction("Index", "Login");
         }
 
         public ActionResult Register()
         {
+            if (Session["LOGGED_USERID"] != null || Session["LOGGED_USERNAME"] != null || Session["LOGGED_USERTYPE"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+         
             return View();
         }
+
         [HttpPost]
+
         [ValidateAntiForgeryToken]
         public ActionResult Register( RegisterModel model)
         {

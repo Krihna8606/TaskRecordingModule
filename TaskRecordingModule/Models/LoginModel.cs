@@ -6,8 +6,12 @@ using System.Web;
 
 namespace TaskRecordingModule.Models
 {
+
+    
+
     public class LoginModel
     {
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
