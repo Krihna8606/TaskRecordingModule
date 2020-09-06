@@ -76,6 +76,7 @@ namespace TaskRecordingModule.Controllers
 
 
             //return RedirectToAction("Index", "Login");
+	    //return redirect
             return RedirectToAction("TaskList");
         }
 
