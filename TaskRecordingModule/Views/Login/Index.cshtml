@@ -1,0 +1,65 @@
+﻿@model TaskRecordingModule.Models.LoginModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+        @if (ViewBag.registerstatus == "success")
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" id="SuccessMessage" style="color:green; margin-top:-11px;"> Register User Successfully! Please Login with Email and Password</div>
+            </div>
+        }
+        @if (ViewBag.registerstatus == "email")
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" id="SuccessMessage" style="color:red; margin-top:-11px;"> Email Address already exist!</div>
+            </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Login" class="btn btn-default" />
+            </div>
+        </div>
+        <hr />
+        <div class="form-group row">
+            @*<div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Forget Password", "ForgetPassword", new { htmlAttributes = new { @class = "col-sm-5 right" } })
+            </div>
+            <br />
+            <hr />*@
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Register", "Register", "Login")
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

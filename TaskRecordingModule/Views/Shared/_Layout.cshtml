@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Task Recording Module</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Task Recording Module", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Session["LOGGED_USERTYPE"] != null && Session["LOGGED_USERTYPE"].ToString().ToUpper() == "USER")
+                    {
+                        <li>@Html.ActionLink("Task List", "TaskList", "User")</li>
+                        <li>@Html.ActionLink("My Task", "MyTask", "User")</li>
+                    }
+                    @if (Session["LOGGED_USERTYPE"] != null && Session["LOGGED_USERTYPE"].ToString().ToUpper() == "ADMIN")
+                    {
+                        <li>@Html.ActionLink("Task List", "Index", "Task")</li>
+                        <li>@Html.ActionLink("Users List", "Index", "User")</li>
+                    }
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("login", "Index", "Login")</li>*@
+                </ul>
+
+                @if (Session["LOGGED_USERNAME"] != null && Session["LOGGED_USERID"] != null)
+                {
+                    using (Html.BeginForm("Logout", "Login", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <ol class="nav navbar-nav navbar-right">
+                            <li>
+                                <style>
+                                    .close {
+                                        display: none
+                                    }
+
+                                        .close:hover {
+                                            display: none
+                                        }
+                                </style>
+                                @*<li>Hello @Session["LOGGED_USERNAME"].ToString() !</li>*@
+                                @Html.ActionLink("Hello " + Session["LOGGED_USERNAME"].ToString() + "!", "Profile", "User", new{id=Session["LOGGED_USERID"].ToString()}, htmlAttributes: new { title = "Manage" })
+                            </li>
+                            <li>
+                                <style>
+                                    .close {
+                                        display: none
+                                    }
+
+                                        .close:hover {
+                                            display: none
+                                        }
+                                </style>
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                            </li>
+                        </ol>
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Login", "Index", "Login", new { area = "" }, new { @class = "navbar-brand navbar-right" })
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year- Task Recording Module
+            </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
